@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->text('content');
             $table->dateTime('published_at');
-            $table->enum('status', ['draft', 'reviewing', 'published', 'cancelled'])->default('new');
+            $table->enum('status', ['draft', 'reviewing', 'published', 'rejected'])->default('new');
             $table->timestamps();
             $table->softDeletes();
         });
