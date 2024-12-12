@@ -10,6 +10,7 @@ use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Validation\Rules\Password;
@@ -92,27 +93,22 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable()
-                    ->sortable(),
+                Tables\Columns\Layout\Split::make([
+                    Tables\Columns\SpatieMediaLibraryImageColumn::make('avatar')
+                        ->circular()
+                        ->collection('avatar')
+                        ->conversion('icon')
+                        ->grow(false),
 
-                Tables\Columns\TextColumn::make('email')
-                    ->searchable()
-                    ->sortable(),
+                    Tables\Columns\TextColumn::make('name')
+                        ->searchable()
+                        ->sortable()
+                        ->weight(FontWeight::Bold),
 
-                Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime()
-                    ->sortable(),
-
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    Tables\Columns\TextColumn::make('email')
+                        ->searchable()
+                        ->sortable(),
+                ])->from('md'),
             ])
             ->filters([
                 //
