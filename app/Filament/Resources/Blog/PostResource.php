@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\Blog;
 
 use App\Enums\PostStatus;
-use App\Filament\Resources\PostResource\Pages;
-use App\Models\Post;
+use App\Filament\Resources\Blog\PostResource\Pages;
+use App\Models\Blog\Post;
 use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -68,8 +68,20 @@ class PostResource extends Resource
                             ->inline()
                             ->options(PostStatus::class)
                             ->required(),
+
+                        Forms\Components\SpatieTagsInput::make('tags'),
                     ])
                     ->columns(),
+
+                Forms\Components\Section::make('Image')
+                    ->schema([
+                        Forms\Components\SpatieMediaLibraryFileUpload::make('image')
+                            ->collection('post-images')
+                            ->hiddenLabel()
+                            ->image()
+                            ->imageEditor()
+                            ->required(),
+                    ]),
 
                 Forms\Components\Section::make('Content')
                     ->schema([
@@ -85,6 +97,10 @@ class PostResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\SpatieMediaLibraryImageColumn::make('image')
+                    ->collection('post-images')
+                    ->conversion('icon'),
+
                 Tables\Columns\TextColumn::make('title')
                     ->searchable()
                     ->sortable(),
@@ -109,6 +125,7 @@ class PostResource extends Resource
 
                 Tables\Columns\TextColumn::make('published_at')
                     ->date()
+                    ->label('Published Date')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('created_at')

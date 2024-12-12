@@ -1,12 +1,12 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Blog;
 
-use App\Models\Author;
+use App\Models\Blog\Author;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Author>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Blog\Author>
  */
 class AuthorFactory extends Factory
 {
