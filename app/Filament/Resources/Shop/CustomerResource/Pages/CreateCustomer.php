@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\CustomerResource\Pages;
+namespace App\Filament\Resources\Shop\CustomerResource\Pages;
 
-use App\Filament\Resources\CustomerResource;
-use Filament\Actions;
+use App\Filament\Resources\Shop\CustomerResource;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateCustomer extends CreateRecord

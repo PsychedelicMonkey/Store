@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\Shop;
 
-use App\Filament\Resources\CustomerResource\Pages;
-use App\Models\Customer;
+use App\Filament\Resources\Shop\OrderResource\Pages;
+use App\Models\Shop\Order;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -12,36 +12,39 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class CustomerResource extends Resource
+class OrderResource extends Resource
 {
-    protected static ?string $model = Customer::class;
+    protected static ?string $model = Order::class;
 
-    protected static ?string $slug = 'shop/customers';
+    protected static ?string $slug = 'shop/orders';
 
-    protected static ?string $recordTitleAttribute = 'name';
+    protected static ?string $recordTitleAttribute = 'number';
 
     protected static ?string $navigationGroup = 'Shop';
 
-    protected static ?string $navigationIcon = 'heroicon-o-user-group';
+    protected static ?string $navigationIcon = 'heroicon-o-shopping-bag';
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name'),
-                Forms\Components\TextInput::make('name')
+                Forms\Components\TextInput::make('shop_customer_id')
+                    ->numeric(),
+                Forms\Components\TextInput::make('number')
                     ->required(),
-                Forms\Components\TextInput::make('email')
-                    ->email()
+                Forms\Components\TextInput::make('total_price')
+                    ->numeric(),
+                Forms\Components\TextInput::make('status')
                     ->required(),
-                Forms\Components\TextInput::make('gender')
+                Forms\Components\TextInput::make('currency')
                     ->required(),
-                Forms\Components\TextInput::make('phone')
-                    ->tel(),
-                Forms\Components\DatePicker::make('birthday'),
+                Forms\Components\TextInput::make('shipping_price')
+                    ->numeric(),
+                Forms\Components\TextInput::make('shipping_method'),
+                Forms\Components\Textarea::make('notes')
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -49,20 +52,23 @@ class CustomerResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')
+                Tables\Columns\TextColumn::make('shop_customer_id')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('name')
+                Tables\Columns\TextColumn::make('number')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('gender')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('phone')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('birthday')
-                    ->date()
+                Tables\Columns\TextColumn::make('total_price')
+                    ->numeric()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('currency')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('shipping_price')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('shipping_method')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -101,9 +107,9 @@ class CustomerResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCustomers::route('/'),
-            'create' => Pages\CreateCustomer::route('/create'),
-            'edit' => Pages\EditCustomer::route('/{record}/edit'),
+            'index' => Pages\ListOrders::route('/'),
+            'create' => Pages\CreateOrder::route('/create'),
+            'edit' => Pages\EditOrder::route('/{record}/edit'),
         ];
     }
 
