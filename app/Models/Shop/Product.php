@@ -36,7 +36,7 @@ class Product extends Model implements HasMedia
         'old_price',
         'price',
         'cost',
-        'status',
+        'type',
         'backorder',
         'requires_shipping',
         'published_at',

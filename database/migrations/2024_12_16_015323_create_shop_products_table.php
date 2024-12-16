@@ -26,7 +26,7 @@ return new class extends Migration
             $table->decimal('old_price', 10, 2)->nullable();
             $table->decimal('price', 10, 2)->nullable();
             $table->decimal('cost', 10, 2)->nullable();
-            $table->enum('status', ['deliverable', 'downloadable'])->nullable();
+            $table->enum('type', ['deliverable', 'downloadable'])->nullable();
             $table->boolean('backorder')->default(false);
             $table->boolean('requires_shipping')->default(false);
             $table->date('published_at')->nullable();
