@@ -5,32 +5,47 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\AuthorResource\Pages;
 use App\Filament\Resources\AuthorResource\RelationManagers;
 use App\Models\Author;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class AuthorResource extends Resource
 {
     protected static ?string $model = Author::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $slug = 'blog/authors';
+
+    protected static ?string $recordTitleAttribute = 'name';
+
+    protected static ?string $navigationGroup = 'Blog';
+
+    protected static ?string $navigationIcon = 'heroicon-o-users';
+
+    protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name'),
+                    ->disableOptionWhen(fn (string $value) => User::find($value)->author()->exists())
+                    ->relationship('user', 'name')
+                    ->searchable(),
+
                 Forms\Components\TextInput::make('name')
+                    ->maxLength(255)
                     ->required(),
+
                 Forms\Components\TextInput::make('email')
                     ->email()
-                    ->required(),
-                Forms\Components\Textarea::make('bio')
+                    ->maxLength(255)
+                    ->required()
+                    ->unique(Author::class, 'email', ignoreRecord: true),
+
+                Forms\Components\RichEditor::make('bio')
                     ->columnSpanFull(),
             ]);
     }
@@ -39,17 +54,19 @@ class AuthorResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('email')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
