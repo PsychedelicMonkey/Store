@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Resources\PostResource\Pages;
+namespace App\Filament\Resources\Blog\PostResource\Pages;
 
 use App\Enums\PostStatus;
-use App\Filament\Resources\PostResource;
+use App\Filament\Resources\Blog\PostResource;
 use Filament\Actions;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;

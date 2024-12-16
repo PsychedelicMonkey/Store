@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\Blog;
 
-use App\Filament\Resources\CategoryResource\Pages;
-use App\Models\Category;
+use App\Filament\Resources\Blog\CategoryResource\Pages;
+use App\Models\Blog\Category;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Infolists\Components;

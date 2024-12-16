@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\Blog;
 
-use App\Filament\Resources\AuthorResource\Pages;
-use App\Models\Author;
+use App\Filament\Resources\Blog\AuthorResource\Pages;
+use App\Models\Blog\Author;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\AuthorResource\Pages;
+namespace App\Filament\Resources\Blog\AuthorResource\Pages;
 
-use App\Filament\Resources\AuthorResource;
+use App\Filament\Resources\Blog\AuthorResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ManageRecords;
 

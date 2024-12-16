@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Blog;
 
 use App\Enums\PostStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
-    /** @use HasFactory<\Database\Factories\PostFactory> */
+    /** @use HasFactory<\Database\Factories\Blog\PostFactory> */
     use HasFactory, SoftDeletes;
 
     /**

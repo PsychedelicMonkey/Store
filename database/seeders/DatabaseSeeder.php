@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Author;
-use App\Models\Category;
-use App\Models\Post;
+use App\Models\Blog\Author;
+use App\Models\Blog\Category;
+use App\Models\Blog\Post;
 use Illuminate\Database\Seeder;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;

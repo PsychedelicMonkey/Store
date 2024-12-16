@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\Blog;
 
 use App\Enums\PostStatus;
-use App\Filament\Resources\PostResource\Pages;
-use App\Models\Post;
+use App\Filament\Resources\Blog\PostResource\Pages;
+use App\Models\Blog\Post;
 use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Form;
