@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Enums\PostStatus;
 use App\Filament\Resources\PostResource\Pages;
 use App\Models\Post;
+use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -129,7 +130,38 @@ class PostResource extends Resource
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
 
-                // TODO: published_at filter.
+                Tables\Filters\Filter::make('published_at')
+                    ->form([
+                        Forms\Components\DatePicker::make('published_from')
+                            ->native(false)
+                            ->placeholder(fn ($state): string => 'Dec 18, '.now()->subYear()->format('Y')),
+
+                        Forms\Components\DatePicker::make('published_until')
+                            ->native(false)
+                            ->placeholder(fn ($state): string => now()->format('M d, Y')),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['published_from'] ?? null,
+                                fn (Builder $query, $date): Builder => $query->whereDate('published_at', '>=', $date),
+                            )
+                            ->when(
+                                $data['published_until'] ?? null,
+                                fn (Builder $query, $date): Builder => $query->whereDate('published_at', '<=', $date),
+                            );
+                    })
+                    ->indicateUsing(function (array $data): array {
+                        $indicators = [];
+                        if ($data['published_from'] ?? null) {
+                            $indicators['published_from'] = 'Published from '.Carbon::parse($data['published_from'])->toFormattedDateString();
+                        }
+                        if ($data['published_until'] ?? null) {
+                            $indicators['published_until'] = 'Published until '.Carbon::parse($data['published_until'])->toFormattedDateString();
+                        }
+
+                        return $indicators;
+                    }),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
@@ -145,7 +177,17 @@ class PostResource extends Resource
                     Tables\Actions\RestoreBulkAction::make(),
                 ]),
             ])
-            ->defaultSort('published_at', 'desc');
+            ->defaultSort('published_at', 'desc')
+            ->emptyStateHeading('No posts yet')
+            ->emptyStateDescription('Once you write your first post, it will appear here.')
+            ->emptyStateIcon('heroicon-o-bookmark')
+            ->emptyStateActions([
+                Tables\Actions\Action::make('create')
+                    ->label('Create post')
+                    ->url(self::getUrl('create'))
+                    ->icon('heroicon-m-plus')
+                    ->button(),
+            ]);
     }
 
     public static function getRelations(): array
