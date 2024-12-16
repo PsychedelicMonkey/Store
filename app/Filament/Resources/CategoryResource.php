@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CategoryResource\Pages;
-use App\Filament\Resources\CategoryResource\RelationManagers;
 use App\Models\Category;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -111,7 +110,7 @@ class CategoryResource extends Resource
                     ->date(),
                 Components\TextEntry::make('updated_at')
                     ->date()
-                    ->label('Last modified at')
+                    ->label('Last modified at'),
             ])
             ->columns(1)
             ->inlineLabel();
