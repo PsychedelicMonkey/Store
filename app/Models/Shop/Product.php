@@ -68,11 +68,11 @@ class Product extends Model implements HasMedia
             'backorder' => 'boolean',
             'requires_shipping' => 'boolean',
             'published_at' => 'date',
-            'weight_unit' => 'decimal:2',
-            'height_unit' => 'decimal:2',
-            'width_unit' => 'decimal:2',
-            'depth_unit' => 'decimal:2',
-            'volume_unit' => 'decimal:2',
+            'weight_value' => 'decimal:2',
+            'height_value' => 'decimal:2',
+            'width_value' => 'decimal:2',
+            'depth_value' => 'decimal:2',
+            'volume_value' => 'decimal:2',
         ];
     }
 
