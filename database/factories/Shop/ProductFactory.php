@@ -5,6 +5,7 @@ namespace Database\Factories\Shop;
 use App\Models\Shop\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\UnreachableUrl;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Shop\Product>
@@ -41,5 +42,19 @@ class ProductFactory extends Factory
             'created_at' => $this->faker->dateTimeBetween('-1 year', '-6 month'),
             'updated_at' => $this->faker->dateTimeBetween('-5 month'),
         ];
+    }
+
+    public function configure(): ProductFactory
+    {
+        return $this->afterCreating(function (Product $product) {
+            try {
+                $product
+                    ->addMediaFromUrl($this->faker->imageUrl())
+                    ->preservingOriginal()
+                    ->toMediaCollection('product-images');
+            } catch (UnreachableUrl $exception) {
+                return;
+            }
+        });
     }
 }

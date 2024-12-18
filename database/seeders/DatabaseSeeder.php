@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Console\Helper\ProgressBar;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -29,6 +30,9 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         DB::raw('SET time_zone=\'+00:00\'');
+
+        // Clear images
+        Storage::deleteDirectory('public');
 
         // Admin
         $this->command->warn(PHP_EOL . 'Creating admin user...');
