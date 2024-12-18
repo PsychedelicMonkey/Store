@@ -12,7 +12,8 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class Product extends Model implements HasMedia
 {
     /** @use HasFactory<\Database\Factories\Shop\ProductFactory> */
-    use HasFactory, InteractsWithMedia;
+    use HasFactory;
+    use InteractsWithMedia;
 
     /**
      * @var string

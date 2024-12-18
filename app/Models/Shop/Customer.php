@@ -12,7 +12,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Customer extends Model
 {
     /** @use HasFactory<\Database\Factories\Shop\CustomerFactory> */
-    use HasFactory, SoftDeletes;
+    use HasFactory;
+    use SoftDeletes;
 
     /**
      * @var string

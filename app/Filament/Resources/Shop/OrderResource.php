@@ -143,7 +143,7 @@ class OrderResource extends Resource
                     ->form([
                         Forms\Components\DatePicker::make('created_from')
                             ->native(false)
-                            ->placeholder(fn ($state): string => 'Dec 18, '.now()->subYear()->format('Y')),
+                            ->placeholder(fn ($state): string => 'Dec 18, ' . now()->subYear()->format('Y')),
 
                         Forms\Components\DatePicker::make('created_until')
                             ->native(false)
@@ -163,10 +163,10 @@ class OrderResource extends Resource
                     ->indicateUsing(function (array $data): array {
                         $indicators = [];
                         if ($data['created_from'] ?? null) {
-                            $indicators['created_from'] = 'Order from '.Carbon::parse($data['created_from'])->toFormattedDateString();
+                            $indicators['created_from'] = 'Order from ' . Carbon::parse($data['created_from'])->toFormattedDateString();
                         }
                         if ($data['created_until'] ?? null) {
-                            $indicators['created_until'] = 'Order until '.Carbon::parse($data['created_until'])->toFormattedDateString();
+                            $indicators['created_until'] = 'Order until ' . Carbon::parse($data['created_until'])->toFormattedDateString();
                         }
 
                         return $indicators;
@@ -257,7 +257,7 @@ class OrderResource extends Resource
     {
         return [
             Forms\Components\TextInput::make('number')
-                ->default('OR-'.random_int(100000, 999999))
+                ->default('OR-' . random_int(100000, 999999))
                 ->disabled()
                 ->dehydrated()
                 ->maxLength(32)

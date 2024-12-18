@@ -13,7 +13,8 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class Category extends Model implements HasMedia
 {
     /** @use HasFactory<\Database\Factories\Shop\CategoryFactory> */
-    use HasFactory, InteractsWithMedia;
+    use HasFactory;
+    use InteractsWithMedia;
 
     /**
      * @var string

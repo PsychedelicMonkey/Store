@@ -134,7 +134,7 @@ class PostResource extends Resource
                     ->form([
                         Forms\Components\DatePicker::make('published_from')
                             ->native(false)
-                            ->placeholder(fn ($state): string => 'Dec 18, '.now()->subYear()->format('Y')),
+                            ->placeholder(fn ($state): string => 'Dec 18, ' . now()->subYear()->format('Y')),
 
                         Forms\Components\DatePicker::make('published_until')
                             ->native(false)
@@ -154,10 +154,10 @@ class PostResource extends Resource
                     ->indicateUsing(function (array $data): array {
                         $indicators = [];
                         if ($data['published_from'] ?? null) {
-                            $indicators['published_from'] = 'Published from '.Carbon::parse($data['published_from'])->toFormattedDateString();
+                            $indicators['published_from'] = 'Published from ' . Carbon::parse($data['published_from'])->toFormattedDateString();
                         }
                         if ($data['published_until'] ?? null) {
-                            $indicators['published_until'] = 'Published until '.Carbon::parse($data['published_until'])->toFormattedDateString();
+                            $indicators['published_until'] = 'Published until ' . Carbon::parse($data['published_until'])->toFormattedDateString();
                         }
 
                         return $indicators;

@@ -11,7 +11,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Post extends Model
 {
     /** @use HasFactory<\Database\Factories\Blog\PostFactory> */
-    use HasFactory, SoftDeletes;
+    use HasFactory;
+    use SoftDeletes;
 
     /**
      * @var string
