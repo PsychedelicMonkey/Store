@@ -269,8 +269,36 @@ class OrderResource extends Resource
                 ->required()
                 ->searchable()
                 ->createOptionForm([
-                    // TODO: create option form
-                ]),
+                    Forms\Components\TextInput::make('name')
+                        ->maxLength(255)
+                        ->required(),
+
+                    Forms\Components\TextInput::make('email')
+                        ->email()
+                        ->label('Email address')
+                        ->maxLength(255)
+                        ->required()
+                        ->unique(Order::class, 'email', ignoreRecord: true),
+
+                    Forms\Components\TextInput::make('phone')
+                        ->maxLength(255),
+
+                    Forms\Components\Select::make('gender')
+                        ->native(false)
+                        ->options([
+                            'male' => 'Male',
+                            'female' => 'Female',
+                            'other' => 'Other',
+                        ])
+                        ->placeholder('Select gender')
+                        ->required(),
+                ])
+                ->createOptionAction(function (Action $action) {
+                    return $action
+                        ->modalHeading('Create customer')
+                        ->modalSubmitActionLabel('Create customer')
+                        ->modalWidth('lg');
+                }),
 
             Forms\Components\ToggleButtons::make('status')
                 ->inline()
