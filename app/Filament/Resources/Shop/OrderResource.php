@@ -13,6 +13,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Squire\Models\Currency;
 
 class OrderResource extends Resource
 {
@@ -67,7 +68,10 @@ class OrderResource extends Resource
                     ->badge(),
 
                 Tables\Columns\TextColumn::make('currency')
-                    ->searchable(),
+                    ->getStateUsing(fn ($record): ?string => Currency::find($record->currency)?->name ?? null)
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
 
                 Tables\Columns\TextColumn::make('total_price')
                     ->numeric()
