@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Shop;
 
 use App\Filament\Resources\Shop\OrderResource\Pages;
+use App\Filament\Resources\Shop\OrderResource\Widgets;
 use App\Models\Shop\Order;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -104,6 +105,8 @@ class OrderResource extends Resource
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
+
+                // TODO: created_at filter.
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -127,6 +130,13 @@ class OrderResource extends Resource
     {
         return [
             //
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            Widgets\OrderStats::class,
         ];
     }
 
