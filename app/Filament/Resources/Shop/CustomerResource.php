@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Squire\Models\Country;
 
 class CustomerResource extends Resource
 {
@@ -94,7 +95,8 @@ class CustomerResource extends Resource
                     ->searchable(isIndividual: true, isGlobal: false)
                     ->sortable(),
 
-                // TODO: add country column.
+                Tables\Columns\TextColumn::make('country')
+                    ->getStateUsing(fn ($record): ?string => Country::find($record->addresses->first()?->country)?->name ?? null),
 
                 Tables\Columns\TextColumn::make('phone')
                     ->searchable()
@@ -150,6 +152,7 @@ class CustomerResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
+            ->with('addresses')
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);

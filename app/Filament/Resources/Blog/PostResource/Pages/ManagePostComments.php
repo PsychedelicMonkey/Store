@@ -57,7 +57,8 @@ class ManagePostComments extends ManageRelatedRecords
                     ->label('Approved for public'),
 
                 Forms\Components\RichEditor::make('content')
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->required(),
             ])
             ->columns(1);
     }
