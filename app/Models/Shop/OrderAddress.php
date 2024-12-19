@@ -20,6 +20,7 @@ class OrderAddress extends Model
      * @var list<string>
      */
     protected $fillable = [
+        'id',
         'addressable_type',
         'addressable_id',
         'country',
@@ -27,6 +28,8 @@ class OrderAddress extends Model
         'city',
         'state',
         'zip',
+        'created_at',
+        'updated_at',
     ];
 
     /** @return MorphTo<Model, self> */

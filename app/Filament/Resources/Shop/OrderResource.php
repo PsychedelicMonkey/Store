@@ -6,6 +6,7 @@ use App\Enums\OrderStatus;
 use App\Filament\Clusters\Products\Resources\ProductResource;
 use App\Filament\Resources\Shop\OrderResource\Pages;
 use App\Filament\Resources\Shop\OrderResource\Widgets;
+use App\Forms\Components\AddressForm;
 use App\Models\Shop\Order;
 use App\Models\Shop\Product;
 use Carbon\Carbon;
@@ -311,7 +312,8 @@ class OrderResource extends Resource
                 ->required()
                 ->searchable(),
 
-            // TODO: add address form
+            AddressForm::make('address')
+                ->columnSpanFull(),
 
             Forms\Components\RichEditor::make('notes')
                 ->columnSpanFull(),
