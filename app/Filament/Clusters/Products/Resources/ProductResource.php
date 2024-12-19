@@ -5,6 +5,7 @@ namespace App\Filament\Clusters\Products\Resources;
 use App\Filament\Clusters\Products;
 use App\Filament\Clusters\Products\Resources\BrandResource\RelationManagers\ProductsRelationManager;
 use App\Filament\Clusters\Products\Resources\ProductResource\Pages;
+use App\Filament\Clusters\Products\Resources\ProductResource\RelationManagers;
 use App\Filament\Clusters\Products\Resources\ProductResource\Widgets;
 use App\Models\Shop\Product;
 use Filament\Forms;
@@ -273,7 +274,7 @@ class ProductResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\CommentsRelationManager::class,
         ];
     }
 

@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Shop;
 
 use App\Filament\Resources\Shop\CustomerResource\Pages;
+use App\Filament\Resources\Shop\CustomerResource\RelationManagers;
 use App\Models\Shop\Customer;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -132,7 +133,8 @@ class CustomerResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\AddressesRelationManager::class,
+            RelationManagers\PaymentsRelationManager::class,
         ];
     }
 
