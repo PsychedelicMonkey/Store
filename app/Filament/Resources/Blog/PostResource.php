@@ -8,6 +8,10 @@ use App\Models\Blog\Post;
 use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists\Components;
+use Filament\Infolists\Infolist;
+use Filament\Pages\SubNavigationPosition;
+use Filament\Resources\Pages\Page;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -29,6 +33,8 @@ class PostResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
     protected static ?int $navigationSort = 0;
+
+    protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
 
     public static function form(Form $form): Form
     {
@@ -190,6 +196,47 @@ class PostResource extends Resource
             ]);
     }
 
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Components\Section::make()
+                    ->schema([
+                        Components\Split::make([
+                            Components\Grid::make(2)
+                                ->schema([
+                                    Components\Group::make([
+                                        Components\TextEntry::make('title'),
+                                        Components\TextEntry::make('slug'),
+                                        Components\TextEntry::make('published_at')
+                                            ->badge()
+                                            ->color('success')
+                                            ->date(),
+                                    ]),
+                                    Components\Group::make([
+                                        Components\TextEntry::make('author.name'),
+                                        Components\TextEntry::make('category.name'),
+                                        Components\SpatieTagsEntry::make('tags'),
+                                    ]),
+                                ]),
+
+                            Components\SpatieMediaLibraryImageEntry::make('image')
+                                ->collection('post-images')
+                                ->grow(false)
+                                ->hiddenLabel(),
+                        ])->from('lg'),
+                    ]),
+
+                Components\Section::make('Content')
+                    ->schema([
+                        Components\TextEntry::make('content')
+                            ->hiddenLabel()
+                            ->html()
+                            ->prose(),
+                    ]),
+            ]);
+    }
+
     public static function getRelations(): array
     {
         return [
@@ -202,8 +249,19 @@ class PostResource extends Resource
         return [
             'index' => Pages\ListPosts::route('/'),
             'create' => Pages\CreatePost::route('/create'),
+            'view' => Pages\ViewPost::route('/{record}'),
+            'comments' => Pages\ManagePostComments::route('/{record}/comments'),
             'edit' => Pages\EditPost::route('/{record}/edit'),
         ];
+    }
+
+    public static function getRecordSubNavigation(Page $page): array
+    {
+        return $page->generateNavigationItems([
+            Pages\ViewPost::class,
+            Pages\EditPost::class,
+            Pages\ManagePostComments::class,
+        ]);
     }
 
     public static function getEloquentQuery(): Builder

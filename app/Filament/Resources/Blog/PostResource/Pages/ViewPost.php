@@ -4,22 +4,12 @@ namespace App\Filament\Resources\Blog\PostResource\Pages;
 
 use App\Filament\Resources\Blog\PostResource;
 use App\Models\Blog\Post;
-use Filament\Actions;
-use Filament\Resources\Pages\EditRecord;
+use Filament\Resources\Pages\ViewRecord;
 use Illuminate\Contracts\Support\Htmlable;
 
-class EditPost extends EditRecord
+class ViewPost extends ViewRecord
 {
     protected static string $resource = PostResource::class;
-
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\DeleteAction::make(),
-            Actions\ForceDeleteAction::make(),
-            Actions\RestoreAction::make(),
-        ];
-    }
 
     public function getTitle(): string|Htmlable
     {
@@ -27,5 +17,12 @@ class EditPost extends EditRecord
         $record = $this->getRecord();
 
         return $record->title;
+    }
+
+    protected function getActions(): array
+    {
+        return [
+            //
+        ];
     }
 }
