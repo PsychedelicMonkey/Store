@@ -3,9 +3,13 @@
 namespace App\Filament\Resources\Shop\OrderResource\Pages;
 
 use App\Filament\Resources\Shop\OrderResource;
+use App\Models\Shop\Order;
+use App\Models\User;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Form;
+use Filament\Notifications\Actions\Action;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use Random\RandomException;
 
@@ -27,6 +31,25 @@ class CreateOrder extends CreateRecord
                     ->contained(false),
             ])
             ->columns(null);
+    }
+
+    protected function afterCreate(): void
+    {
+        /** @var Order $order */
+        $order = $this->record;
+
+        /** @var User $user */
+        $user = auth()->user();
+
+        Notification::make()
+            ->title('New order')
+            ->icon('heroicon-o-shopping-bag')
+            ->body("**{$order->customer?->name} ordered {$order->items->count()} products.**")
+            ->actions([
+                Action::make('View')
+                    ->url(OrderResource::getUrl('edit', ['record' => $order])),
+            ])
+            ->sendToDatabase($user);
     }
 
     /**

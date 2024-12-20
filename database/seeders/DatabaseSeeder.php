@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Filament\Resources\Shop\OrderResource;
 use App\Models\Address;
 use App\Models\Blog\Author;
 use App\Models\Blog\Category as BlogCategory;
@@ -16,6 +17,8 @@ use App\Models\Shop\Payment;
 use App\Models\Shop\Product;
 use App\Models\User;
 use Closure;
+use Filament\Notifications\Actions\Action;
+use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Database\Seeder;
@@ -89,6 +92,19 @@ class DatabaseSeeder extends Seeder
                 'items'
             )
             ->create());
+
+        foreach ($orders->random(rand(5, 8)) as $order) {
+            Notification::make()
+                ->title('New order')
+                ->icon('heroicon-o-shopping-bag')
+                ->body("{$order->customer->name} ordered {$order->items->count()} products.")
+                ->actions([
+                    Action::make('View')
+                        ->url(OrderResource::getUrl('edit', ['record' => $order])),
+                ])
+                ->sendToDatabase($user);
+        }
+
         $this->command->info('Shop orders created.');
 
         // Blog
