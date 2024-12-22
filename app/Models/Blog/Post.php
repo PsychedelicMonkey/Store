@@ -114,6 +114,7 @@ class Post extends Model implements HasMedia
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('post-images')
-            ->singleFile();
+            ->singleFile()
+            ->withResponsiveImages();
     }
 }

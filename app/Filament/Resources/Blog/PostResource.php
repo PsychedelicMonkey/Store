@@ -77,6 +77,21 @@ class PostResource extends Resource
                     ])
                     ->columns(),
 
+                Forms\Components\Section::make('Image')
+                    ->schema([
+                        Forms\Components\SpatieMediaLibraryFileUpload::make('image')
+                            ->collection('post-images')
+                            ->hiddenLabel()
+                            ->image()
+                            ->imageEditor()
+                            ->imageCropAspectRatio('3:2')
+                            ->imageResizeMode('cover')
+                            ->imageResizeTargetWidth('1200')
+                            ->imageResizeTargetHeight('800')
+                            ->responsiveImages()
+                            ->required(),
+                    ]),
+
                 Forms\Components\Section::make('Content')
                     ->schema([
                         Forms\Components\RichEditor::make('content')
