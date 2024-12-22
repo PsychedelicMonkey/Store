@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -93,6 +94,14 @@ class Post extends Model implements HasMedia
     public function getPublishedDate(): string
     {
         return $this->published_at->format('F jS, Y');
+    }
+
+    /**
+     * Return the first words of the post's content.
+     */
+    public function getShortContent(int $words = 30): string
+    {
+        return Str::words(strip_tags($this->content), $words);
     }
 
     /**
