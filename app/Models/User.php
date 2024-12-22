@@ -66,6 +66,22 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
     }
 
     /**
+     * Return the user's avatar object.
+     */
+    public function getAvatar(): ?Media
+    {
+        return $this->getFirstMedia('user-avatars');
+    }
+
+    /**
+     * Return the user's avatar URL.
+     */
+    public function getAvatarUrl(string $conversionName = ''): ?string
+    {
+        return $this->getFirstMediaUrl('user-avatars', $conversionName);
+    }
+
+    /**
      * Determine if the user has permission to access Filament.
      */
     public function canAccessPanel(Panel $panel): bool
@@ -78,7 +94,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
      */
     public function getFilamentAvatarUrl(): ?string
     {
-        return $this->getFirstMediaUrl('user-avatars', 'icon');
+        return $this->getAvatarUrl('icon');
     }
 
     public function registerMediaCollections(): void

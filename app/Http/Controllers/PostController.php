@@ -31,7 +31,7 @@ class PostController extends Controller
             throw new NotFoundHttpException;
         }
 
-        $post->load(['author', 'category', 'media']);
+        $post->load(['author', 'category', 'media', 'tags']);
 
         return view('post.show', compact('post'));
     }
