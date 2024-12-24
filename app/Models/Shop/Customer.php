@@ -5,6 +5,8 @@ namespace App\Models\Shop;
 use App\Models\Address;
 use App\Models\Comment;
 use App\Models\User;
+use App\Observers\CustomerObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,9 +14,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Cashier\Billable;
 
+#[ObservedBy(CustomerObserver::class)]
 class Customer extends Model
 {
+    use Billable;
     /** @use HasFactory<\Database\Factories\Shop\CustomerFactory> */
     use HasFactory;
     use SoftDeletes;
@@ -23,6 +28,16 @@ class Customer extends Model
      * @var string
      */
     protected $table = 'shop_customers';
+
+    /**
+     * @var array<string, mixed>
+     */
+    protected $attributes = [
+        'stripe_id' => null,
+        'pm_type' => null,
+        'pm_last_four' => null,
+        'trial_ends_at' => null,
+    ];
 
     /**
      * @var list<string>
@@ -43,6 +58,7 @@ class Customer extends Model
     {
         return [
             'birthday' => 'date',
+            'trial_ends_at' => 'datetime',
         ];
     }
 
