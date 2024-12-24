@@ -61,7 +61,7 @@
                             </header>
 
                             <article class="prose prose-sm max-w-none">
-                                {!! $post->author->bio !!}}
+                                {!! $post->author->bio !!}
                             </article>
                         </div>
 
